@@ -6,6 +6,9 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import NotificationList from './src/components/NotificationsList';
 
+import Animated, { SlideInDown, SlideInUp } from 'react-native-reanimated';
+import SwipeUpToOpen from './src/components/SwipeUpToOpen';
+
 export default function App() {
 
   const [date, setDate] = useState(dayjs());
@@ -23,22 +26,24 @@ export default function App() {
 
       {/* Notification List */}
       <NotificationList ListHeaderComponent={() => (
-        <View style={styles.header}>
+        <Animated.View entering={SlideInUp} style={styles.header}>
           <Ionicons name="ios-lock-closed" size={20} color="white" />
           <Text style={styles.date}>{date.format("dddd, DD MMMM")}</Text>
           <Text style={styles.time}>{date.format("hh:mm")}</Text>
-        </View>
+        </Animated.View>
       )} />
 
-      <View style={styles.footer}>
+      <Animated.View entering={SlideInDown} style={styles.footer}>
         <View style={styles.icon}>
           <MaterialCommunityIcons name="flashlight" size={24} color="white" />
         </View>
 
+        <SwipeUpToOpen />
+
         <View style={styles.icon}>
           <Ionicons name="ios-camera" size={24} color="white" />
         </View>
-      </View> 
+      </Animated.View> 
 
       <StatusBar style="light" />
     </ImageBackground>
@@ -55,6 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 250,
+    marginTop: 32,
   },
 
   date: {
@@ -65,7 +71,7 @@ const styles = StyleSheet.create({
   },
 
   time: {
-    fontSize: 82,
+    fontSize: 104,
     fontWeight: 'bold',
     color: '#C3FFFE',
   },
@@ -74,10 +80,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 'auto',
-    alignSelf: 'stretch',
     paddingVertical: 10,
     paddingHorizontal: 30,
-    height: 75
+    marginBottom: 10,
+    height: 75,
   },
 
   icon: {
