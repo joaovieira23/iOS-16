@@ -11,7 +11,8 @@ import Animated, {
       SlideInUp,
       useSharedValue,
       useAnimatedStyle,
-      interpolate
+      interpolate,
+      useDerivedValue
 } from 'react-native-reanimated';
 import SwipeUpToOpen from './src/components/SwipeUpToOpen';
 
@@ -19,6 +20,7 @@ export default function App() {
 
   const [date, setDate] = useState(dayjs());
   const footerVisibility = useSharedValue(1);
+  const footerHeight = useDerivedValue(() => interpolate(footerVisibility.value, [0, 1], [0, 85]));
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,6 +41,7 @@ export default function App() {
       {/* Notification List */}
       <NotificationList 
         footerVisibility={footerVisibility}
+        footerHeight={footerHeight}
         ListHeaderComponent={() => (
         <Animated.View entering={SlideInUp} style={styles.header}>
           <Ionicons name="ios-lock-closed" size={20} color="white" />
